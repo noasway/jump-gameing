@@ -205,15 +205,22 @@ var People = /*#__PURE__*/function () {
     this.context = context;
     this.canvas = canvas;
     this.orignLY = y;
+    this.context.beginPath();
+    this.context.rect(x - r, y - r, r * 2, r * 2);
+    this.context.closePath();
+    this.context.stroke();
   }
   _createClass(People, [{
     key: "draw",
     value: function draw() {
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      console.log("---", this.locationX, this.locationY);
+      this.context.clearRect(this.locationX - this.radius - 1, this.locationY - this.radius - 1, this.radius * 2 + 2, this.radius * 2 + 2);
       this.context.beginPath();
       this.context.arc(this.locationX, this.locationY, this.radius, 0, 2 * Math.PI, false);
-      this.context.fillStyle = "black";
-      this.context.fill();
+      // this.context.fillStyle = "black";
+      // this.context.fill();
+      this.context.closePath();
+      this.context.stroke();
     }
   }, {
     key: "jump",
@@ -258,11 +265,56 @@ var People = /*#__PURE__*/function () {
   return People;
 }();
 exports.People = People;
+},{}],"src/map.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Map = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var Map = /*#__PURE__*/function () {
+  function Map(elId, x, y) {
+    _classCallCheck(this, Map);
+    _defineProperty(this, "locationX", 0);
+    _defineProperty(this, "locationY", 0);
+    _defineProperty(this, "radius", 0);
+    _defineProperty(this, "context", void 0);
+    _defineProperty(this, "canvas", void 0);
+    _defineProperty(this, "speed", 0);
+    _defineProperty(this, "acceleration", 0);
+    this.locationX = x;
+    this.locationY = y;
+    var canvas = document.getElementById(elId);
+    var context = canvas.getContext("2d");
+    this.context = context;
+    this.canvas = canvas;
+  }
+  _createClass(Map, [{
+    key: "draw",
+    value: function draw() {
+      // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.context.beginPath();
+      this.context.moveTo(0, this.locationY);
+      this.context.lineTo(this.canvas.width, this.locationY);
+      this.context.stroke();
+    }
+  }]);
+  return Map;
+}();
+exports.Map = Map;
 },{}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 require("./styles.css");
 var _people = require("./people");
+var _map = require("./map");
 var canvas = document.getElementById("myCanvas");
 var centerX = 20;
 var centerY = canvas.height - 12;
@@ -270,7 +322,8 @@ var radius = 10;
 var arc = new _people.People("myCanvas", centerX, centerY, radius);
 arc.speed = 80;
 arc.acceleration = -160;
-arc.draw();
+
+// arc.draw();
 // 事件监听
 document.addEventListener("keydown", function (event) {
   if (event.code === "Space") {
@@ -280,7 +333,9 @@ document.addEventListener("keydown", function (event) {
     }
   }
 });
-},{"./styles.css":"src/styles.css","./people":"src/people.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var line = new _map.Map("myCanvas", 0, centerY);
+// line.draw();
+},{"./styles.css":"src/styles.css","./people":"src/people.js","./map":"src/map.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -305,7 +360,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35349" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46271" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

@@ -19,10 +19,21 @@ export class People {
     this.context = context;
     this.canvas = canvas;
     this.orignLY = y;
+
+    this.context.beginPath();
+    this.context.rect(x - r, y - r, r * 2, r * 2);
+    this.context.closePath();
+    this.context.stroke();
   }
 
   draw() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    console.log("---", this.locationX, this.locationY);
+    this.context.clearRect(
+      this.locationX - this.radius - 1,
+      this.locationY - this.radius - 1,
+      this.radius * 2 + 2,
+      this.radius * 2 + 2
+    );
     this.context.beginPath();
     this.context.arc(
       this.locationX,
@@ -32,8 +43,10 @@ export class People {
       2 * Math.PI,
       false
     );
-    this.context.fillStyle = "black";
-    this.context.fill();
+    // this.context.fillStyle = "black";
+    // this.context.fill();
+    this.context.closePath();
+    this.context.stroke();
   }
 
   jump() {
