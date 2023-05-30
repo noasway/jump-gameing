@@ -205,16 +205,16 @@ var People = /*#__PURE__*/function () {
     this.context = context;
     this.canvas = canvas;
     this.orignLY = y;
-    this.context.beginPath();
-    this.context.rect(x - r, y - r, r * 2, r * 2);
-    this.context.closePath();
-    this.context.stroke();
+
+    // this.context.beginPath();
+    // this.context.rect(x - r - 1, y - r - 1, (r + 1) * 2, (r + 1) * 2);
+    // this.context.closePath();
+    // this.context.stroke();
   }
   _createClass(People, [{
     key: "draw",
     value: function draw() {
-      console.log("---", this.locationX, this.locationY);
-      this.context.clearRect(this.locationX - this.radius - 1, this.locationY - this.radius - 1, this.radius * 2 + 2, this.radius * 2 + 2);
+      this.context.clearRect(this.locationX - this.radius - 2, this.locationY - this.radius - 2, this.radius * 2 + 4, this.radius * 2 + 4);
       this.context.beginPath();
       this.context.arc(this.locationX, this.locationY, this.radius, 0, 2 * Math.PI, false);
       // this.context.fillStyle = "black";
@@ -305,6 +305,15 @@ var Map = /*#__PURE__*/function () {
       this.context.lineTo(this.canvas.width, this.locationY);
       this.context.stroke();
     }
+  }, {
+    key: "move",
+    value: function move() {
+      var _this = this;
+      setInterval(function () {
+        _this.context.clearRect(0, _this.locationY, _this.canvas.width, 1);
+        _this.draw();
+      }, 10);
+    }
   }]);
   return Map;
 }();
@@ -319,11 +328,13 @@ var canvas = document.getElementById("myCanvas");
 var centerX = 20;
 var centerY = canvas.height - 12;
 var radius = 10;
+var line = new _map.Map("myCanvas", 0, centerY);
+line.draw();
+line.move();
 var arc = new _people.People("myCanvas", centerX, centerY, radius);
 arc.speed = 80;
 arc.acceleration = -160;
-
-// arc.draw();
+arc.draw();
 // 事件监听
 document.addEventListener("keydown", function (event) {
   if (event.code === "Space") {
@@ -333,8 +344,6 @@ document.addEventListener("keydown", function (event) {
     }
   }
 });
-var line = new _map.Map("myCanvas", 0, centerY);
-// line.draw();
 },{"./styles.css":"src/styles.css","./people":"src/people.js","./map":"src/map.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -360,11 +369,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46271" + '/');
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35349" + '/');
->>>>>>> 086b39bfae7ae76b400266cdb092c34c19f06a1f
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40871" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

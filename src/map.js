@@ -24,4 +24,11 @@ export class Map {
     this.context.lineTo(this.canvas.width, this.locationY);
     this.context.stroke();
   }
+
+  move() {
+    setInterval(() => {
+      this.context.clearRect(0, this.locationY, this.canvas.width, 1);
+      this.draw();
+    }, 10);
+  }
 }

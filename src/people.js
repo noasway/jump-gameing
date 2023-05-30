@@ -20,19 +20,18 @@ export class People {
     this.canvas = canvas;
     this.orignLY = y;
 
-    this.context.beginPath();
-    this.context.rect(x - r, y - r, r * 2, r * 2);
-    this.context.closePath();
-    this.context.stroke();
+    // this.context.beginPath();
+    // this.context.rect(x - r - 1, y - r - 1, (r + 1) * 2, (r + 1) * 2);
+    // this.context.closePath();
+    // this.context.stroke();
   }
 
   draw() {
-    console.log("---", this.locationX, this.locationY);
     this.context.clearRect(
-      this.locationX - this.radius - 1,
-      this.locationY - this.radius - 1,
-      this.radius * 2 + 2,
-      this.radius * 2 + 2
+      this.locationX - this.radius - 2,
+      this.locationY - this.radius - 2,
+      this.radius * 2 + 4,
+      this.radius * 2 + 4
     );
     this.context.beginPath();
     this.context.arc(
